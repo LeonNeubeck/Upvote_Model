@@ -17,7 +17,7 @@ def binary_cat_upvotes(original_df, threshold=50):
     df['cat_upvotes'] = df['upvotes'].apply(trans)
     return df
 
-def multi_cat_upvotes(original_df, int_list=[10,100,1000]):
+def multi_cat_upvotes(original_df, int_list=[2,15,30,100,500]):
     """
     Takes column from df and returns df with new
     column 'cat_upvotes' based on list passed as an argument
