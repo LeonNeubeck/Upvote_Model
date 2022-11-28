@@ -8,7 +8,7 @@ requirements = [x.strip() for x in content if 'git+' not in x]
 setup(name='Upvote_Model',
       version="1.0",
       description="Project Description",
-      packages=find_packages(),
+      packages=['app','models','raw_data','scripts','Upvote_Model'],
       install_requires=requirements,
       test_suite='tests',
       # include_package_data: to install data from MANIFEST.in
