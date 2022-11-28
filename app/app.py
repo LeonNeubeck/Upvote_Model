@@ -2,6 +2,9 @@ import streamlit as st
 import datetime
 import pandas as pd
 import requests
+from PIL import Image
+import base64
+from io import BytesIO
 
 
 
@@ -68,14 +71,36 @@ st.markdown("""
 """)
 
 
+def load_image(image_file):
+	img = Image.open(image_file)
+	return img
+
 st.set_option('deprecation.showfileUploaderEncoding', False)
-uploaded_file = st.file_uploader("Choose a PNG or JPEG file", type = ['png','jpg','jpeg'])
+uploaded_file = st.file_uploader("Choose a PNG or JPEG file", type = ['png','jpg','jpeg'], accept_multiple_files =False)
 show_file = st.empty
 if not uploaded_file:
-    show_file.info('Please upload a file:'.format(''.join(['png','jpg','jpeg'])))
+    st.write('Please upload a file:'.format(''.join(['png','jpg','jpeg'])))
 else:
-    show_file.image
-    st.write(f"{uploaded_file}")
+
+    st.write("start")
+    img = Image.open(uploaded_file)
+    im_file = BytesIO()
+    img.save(im_file, format="PNG")
+    im_bytes = im_file.getvalue()  # im_bytes: image in binary format.
+    im_b64 = base64.b64encode(im_bytes)
+
+    st.write("done!!!")
+    params = {
+        "title": title,
+        "image": im_b64,
+        "time": 0,
+    }
+
+
+
+
+
+
 
 # with st.form(key='params_for_api'):
 
