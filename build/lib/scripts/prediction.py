@@ -25,17 +25,17 @@ def pred_preproc(time_stamp, image_arr, image_size, title):
 
     X_NLP = preprocessing(title)
     X_NLP = embedding(title,word2vec)
-    t = pad_sequences(X_NLP, dtype='float32', padding='post', maxlen=max_length)
-    X_NLP = #padding?
+    #padding?
     return { "input_Im": X_im, "input_size_im": X_im_size, "input_size_title": X_t_size,"input_timestep":X_timestep,"input_NLP": X_NLP}
 
 
 
-def predict(time_stamp, image_arr, image_size, title, model):
+def predict(time_stamp, image_arr, image_size, title, model_name):
 
 
 
 
     X_dict = pred_preproc(time_stamp, image_arr, image_size, title)
+    model = keras.models.load_model(f'../models/{model_name}.h5')
     y_pred = model.predict(X_dict)
     return y_pred
