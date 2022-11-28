@@ -359,6 +359,7 @@ def preprocess(data):
     df['padding'] = tes
 
     X_im = df["image_path"]
+    df["size"] = df["size"].apply(lambda x : int(x))
     X_im_size = df["size"]
     X_timestep = df[["year", "sin_month", "cos_month", "sin_day", "cos_day", "sin_hour", "cos_hour", "sin_minute","cos_minute", 0, 1, 2, 3, 4, 5, 6]].values
     X_t_size = df["title_len"]
@@ -370,5 +371,6 @@ def preprocess(data):
     X_NLP = np.concatenate(X_NLP, axis = 0)
 
 
+    df["y_cat"] = df["y_cat"].astype("string")
     y = df["y_cat"]
     return { "input_Im": X_im, "input_size_im": X_im_size, "input_size_title": X_t_size,"input_timestep":X_timestep,"input_NLP": X_NLP}, y, df
