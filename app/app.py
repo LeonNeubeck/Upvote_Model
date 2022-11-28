@@ -54,11 +54,11 @@ st.markdown("""
     ##### DateTime
 """)
 ### Datetime
-t = st.date_input(
+d = st.date_input(
     "Date",
     datetime.date(2022, 11, 10),
     )
-d = st.time_input(
+t = st.time_input(
     "Time",
     datetime.time(8, 00)
 )
