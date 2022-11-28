@@ -14,7 +14,7 @@ from keras.utils import to_categorical
 from tqdm import tqdm
 from PIL import Image
 from os import listdir
-from gensim.models import Word2Vec###### <---- change
+from gensim.models import Word2Vec
 import datetime as dt
 import time
 import math
@@ -161,7 +161,8 @@ CONTRACTION_MAP = {
 }
 
 word2vec = Word2Vec.load("../models/w2v_150k")
-
+vec_size = 40
+max_length = 10
 
 
 ##Davids timestamper
@@ -316,7 +317,7 @@ def preprocess(data):
 
     for i in range(6):
     # get the path/directory
-        folder_dir = f"images_for_model/category_{i}"
+        folder_dir = f"../raw_data/images/category_{i}"
         for images in os.listdir(folder_dir):
             yeet = []
             path = os.path.join(folder_dir, images)
@@ -346,8 +347,7 @@ def preprocess(data):
     ### Preprocessing ###
     df['preprocessing'] = df['title'].apply(lambda sentence: preprocessing(sentence))
     ## Embedding ###
-    vec_size = 40
-    max_length = 10
+
     #word2vec = Word2Vec(sentences=df["preprocessing"], vector_size=vec_size, min_count=10, window=4)####CHANGE DIS
     df['embedding'] = df['preprocessing'].apply(lambda x: embedding(x,word2vec))
     ### Padding ###
@@ -371,4 +371,4 @@ def preprocess(data):
 
 
     y = df["y_cat"]
-    return { "input_Im": X_im, "input_size_im": X_im_size, "input_size_title": X_t_size,"input_timestep":X_timestep,"input_NLP": X_NLP}, y
+    return { "input_Im": X_im, "input_size_im": X_im_size, "input_size_title": X_t_size,"input_timestep":X_timestep,"input_NLP": X_NLP}, y, df
