@@ -3,9 +3,9 @@ import pandas as pd
 import keras
 
 from gensim.models import Word2Vec
-from final_preprocessor import count_len, transform_timestamp, preprocessing, embedding
+from scripts.final_preprocessor import count_len, transform_timestamp, preprocessing, embedding
 from keras.utils import pad_sequences
-word2vec = Word2Vec.load("../models/w2v_150k")
+word2vec = Word2Vec.load("models/w2v_150k")
 
 vec_size = 40
 max_length = 10

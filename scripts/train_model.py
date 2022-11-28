@@ -1,3 +1,6 @@
+import os
+os.environ["TF_CPP_MIN_LOG_LEVEL"]="3"
+
 import pandas as pd
 import numpy as np
 
@@ -16,14 +19,14 @@ from keras.layers import Dropout
 from keras.layers import Normalization
 
 
+
 import keras
 from keras.applications.resnet import ResNet50, preprocess_input
 from keras.preprocessing.image import ImageDataGenerator
 
 
 from final_preprocessor import preprocess
-from models.loader import  get_model, save_model
-
+from models import loader
 BATCH_SIZE = 32
 
 def initialize_model():
@@ -99,7 +102,7 @@ def initialize_model():
 datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
 
 def createGenerator(dff, batch_size=BATCH_SIZE):
-
+    dff["y_cat"] = dff["y_cat"].astype("string")
     # Shuffles the dataframe, and so the batches as well
     dff = dff.sample(frac=1)
 
@@ -125,7 +128,7 @@ def createGenerator(dff, batch_size=BATCH_SIZE):
         end = idx + X1[0].shape[0]
         # get next batch of lines from df
         X_im_size = dff["size"][idx:end].to_numpy()
-        X_timestep = dff[["year", "sin_month", "cos_month", "sin_day", "cos_day", "sin_hour", "cos_hour", "sin_minute","cos_minute", 0, 1, 2, 3, 4, 5, 6]][idx:end].to_numpy()
+        X_timestep = dff[["year", "sin_month", "cos_month", "sin_day", "cos_day", "sin_hour", "cos_hour", "sin_minute","cos_minute", "0", "1", "2", "3", "4", "5", "6"]][idx:end].to_numpy()
         X_t_size = dff["title_len"][idx:end].to_numpy()
         X_NLP = dff["padding"][idx:end]
         X_NLP =[np.expand_dims(x, axis=0) for x in X_NLP]
@@ -143,23 +146,23 @@ def createGenerator(dff, batch_size=BATCH_SIZE):
         y = X1[1]
         X_im = X1[0]
         # Yields the image, metadata & target batches
-        yield { "input_Im": X_im, "input_size_im": X_im_size, "input_size_title": X_t_size,"input_timestep":X_timestep,"input_NLP": X_NLP},y, dff
+        yield { "input_Im": X_im, "input_size_im": X_im_size, "input_size_title": X_t_size,"input_timestep":X_timestep,"input_NLP": X_NLP},y
 
 
 
 
+import os
 
 
-
-def train_model( model_name, new = True, old_model = "Model_predictor"):
+def train_model( model_name, new = False, old_model = "Model_predictor"):
     if new:
         model = initialize_model()
     else:
-        model = get_model(old_model)
+        model = loader.get_model(old_model)
         pass
-
-    df = pd.read_csv('data/balanced_35k.csv', index_col=0)
-    X_dict, y, df = preprocess(df)
+    file_path  = os.path.abspath(os.path.join(os.path.dirname( __file__ ), 'data/balanced_35k.csv'))
+    df = pd.read_csv(file_path, index_col=0)
+    df = preprocess(df)
     GENERATOR = createGenerator(df)
     model.fit(
     GENERATOR,
@@ -171,7 +174,7 @@ def train_model( model_name, new = True, old_model = "Model_predictor"):
 
     #validation_data = GENERATOR_train
     )
-    save_model(model)
+    loader.save_model(model)
     return model
 
 train_model("model_test")
