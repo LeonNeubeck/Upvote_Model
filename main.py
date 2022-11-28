@@ -9,9 +9,7 @@ import numpy as np
 from scripts.prediction import predict
 
 app = FastAPI()
-model = keras.models.load_model(f'../models/Model_predictor.h5')
-
-
+model = keras.models.load_model(f'models/Model_predictor.h5')
 
 def base64_to_pil(img_str):
     if "base64," in img_str:
@@ -30,8 +28,7 @@ async def root():
 #Sample url = http://localhost:8000/getPrediction?timestamp=2012-04-22T04:20:11&title=the%20best%20dog%20ever&url=imgururl.jpg
 #Url output = {"prediction":0,"timestamp":"2012-04-22T04:20:11","title":"the best dog ever","url":"imgururl.jpg"}
 @app.get("/getPrediction")
-def timestampPrediction(time_stamp, title, image):
-
+def getPrediction(time_stamp, title, image):
     img = base64_to_pil(image)
     im_size = img.size()
     im_arr = np.array(img)
