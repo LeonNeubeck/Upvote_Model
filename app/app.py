@@ -93,12 +93,12 @@ else:
     params = {
         "title": title,
         "image": im_b64,
-        "time": 0,
+        "time_stamp": 0,
     }
 
 
 
-
+r = requests.get(f"http://localhost:8000/getPrediction",params = params).json()
 
 
 
