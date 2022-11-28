@@ -376,7 +376,6 @@ def preprocess(data):
 
     df["y_cat"] = df["y_cat"].astype("string")
     y = df["y_cat"]
-    df["padding"] = pd.Series(X_NLP)
     file_path  = os.path.abspath(os.path.join(os.path.dirname( __file__ ), 'data/processed_df.csv'))
     df.to_csv(file_path)
     return { "input_Im": X_im, "input_size_im": X_im_size, "input_size_title": X_t_size,"input_timestep":X_timestep,"input_NLP": X_NLP}, y, df
