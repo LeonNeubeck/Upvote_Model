@@ -33,8 +33,8 @@ from keras.utils import pad_sequences
 #### might be wrong
 
 
-
-from models.loader import get_Word2vec
+from models import loader
+#from models.loader import get_Word2vec
 
 
 CONTRACTION_MAP = {
@@ -163,7 +163,7 @@ CONTRACTION_MAP = {
 "you've": "you have"
 }
 
-word2vec = get_Word2vec()
+word2vec = loader.get_Word2vec()
 vec_size = 40
 max_length = 10
 
@@ -320,7 +320,7 @@ def preprocess(data):
 
     for i in range(6):
     # get the path/directory
-        folder_dir = f"images/category_{i}"
+        folder_dir = os.path.abspath(os.path.join(os.path.dirname( __file__ ), f"images/category_{i}"))
         for images in os.listdir(folder_dir):
             yeet = []
             path = os.path.join(folder_dir, images)
@@ -362,7 +362,7 @@ def preprocess(data):
     df['padding'] = tes
 
     X_im = df["image_path"]
-    df["size"] = df["size"].apply(lambda x : int(x))
+    df["size"] = df["size"].astype("float")
     X_im_size = df["size"]
     X_timestep = df[["year", "sin_month", "cos_month", "sin_day", "cos_day", "sin_hour", "cos_hour", "sin_minute","cos_minute", 0, 1, 2, 3, 4, 5, 6]].values
     X_t_size = df["title_len"]
@@ -376,4 +376,7 @@ def preprocess(data):
 
     df["y_cat"] = df["y_cat"].astype("string")
     y = df["y_cat"]
+    df["padding"] = pd.Series(X_NLP)
+    file_path  = os.path.abspath(os.path.join(os.path.dirname( __file__ ), 'data/processed_df.csv'))
+    df.to_csv(file_path)
     return { "input_Im": X_im, "input_size_im": X_im_size, "input_size_title": X_t_size,"input_timestep":X_timestep,"input_NLP": X_NLP}, y, df
