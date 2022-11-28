@@ -22,6 +22,7 @@ from keras.preprocessing.image import ImageDataGenerator
 
 
 from final_preprocessor import preprocess
+from models.loader import  get_model, save_model
 
 BATCH_SIZE = 32
 
@@ -95,7 +96,6 @@ def initialize_model():
                 metrics=['accuracy'])
     return model
 
-
 datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
 
 def createGenerator(dff, batch_size=BATCH_SIZE):
@@ -143,7 +143,7 @@ def createGenerator(dff, batch_size=BATCH_SIZE):
         y = X1[1]
         X_im = X1[0]
         # Yields the image, metadata & target batches
-        yield { "input_Im": X_im, "input_size_im": X_im_size, "input_size_title": X_t_size,"input_timestep":X_timestep,"input_NLP": X_NLP},y
+        yield { "input_Im": X_im, "input_size_im": X_im_size, "input_size_title": X_t_size,"input_timestep":X_timestep,"input_NLP": X_NLP},y, dff
 
 
 
@@ -151,18 +151,16 @@ def createGenerator(dff, batch_size=BATCH_SIZE):
 
 
 
-def train_model( name_, new = True, old_model = "Model_predictor"):
+def train_model( model_name, new = True, old_model = "Model_predictor"):
     if new:
         model = initialize_model()
     else:
-        model = keras.models.load_model(f'../models/{old_model}.h5')
+        model = get_model(old_model)
         pass
 
     df = pd.read_csv('data/balanced_35k.csv', index_col=0)
     X_dict, y, df = preprocess(df)
-
     GENERATOR = createGenerator(df)
-
     model.fit(
     GENERATOR,
     epochs=100,
@@ -173,7 +171,7 @@ def train_model( name_, new = True, old_model = "Model_predictor"):
 
     #validation_data = GENERATOR_train
     )
-    model.save(f'../models/{name_}')
+    save_model(model)
     return model
 
-train_model()
+train_model("model_test")
