@@ -62,7 +62,9 @@ t = st.time_input(
     "Time",
     datetime.time(8, 00)
 )
-st.write('DateTime:', d, t)
+
+userdatetime = datetime.datetime.combine(d,t)
+date_str = userdatetime.strftime("%Y-%m-%dT%H:%M:%S")
 
 ### Images
 st.markdown("""
@@ -78,6 +80,7 @@ def load_image(image_file):
 st.set_option('deprecation.showfileUploaderEncoding', False)
 uploaded_file = st.file_uploader("Choose a PNG or JPEG file", type = ['png','jpg','jpeg'], accept_multiple_files =False)
 show_file = st.empty
+
 if not uploaded_file:
     st.write('Please upload a file:'.format(''.join(['png','jpg','jpeg'])))
 else:
@@ -93,14 +96,16 @@ else:
     params = {
         "title": title,
         "image": im_b64,
-        "time_stamp": 0,
+        "time_stamp": date_str,
     }
+
 
 
 
 r = requests.get(f"http://localhost:8000/getPrediction",params = params).json()
 
 
+# time =
 
 # with st.form(key='params_for_api'):
 
