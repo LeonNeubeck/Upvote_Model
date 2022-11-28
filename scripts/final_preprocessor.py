@@ -34,6 +34,9 @@ from keras.utils import pad_sequences
 
 
 
+from models.loader import get_Word2vec
+
+
 CONTRACTION_MAP = {
 "ain't": "is not",
 "aren't": "are not",
@@ -160,7 +163,7 @@ CONTRACTION_MAP = {
 "you've": "you have"
 }
 
-word2vec = Word2Vec.load("../models/w2v_150k")
+word2vec = get_Word2vec()
 vec_size = 40
 max_length = 10
 
@@ -317,7 +320,7 @@ def preprocess(data):
 
     for i in range(6):
     # get the path/directory
-        folder_dir = f"../raw_data/images/category_{i}"
+        folder_dir = f"images/category_{i}"
         for images in os.listdir(folder_dir):
             yeet = []
             path = os.path.join(folder_dir, images)

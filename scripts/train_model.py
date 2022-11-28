@@ -22,6 +22,7 @@ from keras.preprocessing.image import ImageDataGenerator
 
 
 from final_preprocessor import preprocess
+from models.loader import  get_model, save_model
 
 BATCH_SIZE = 32
 
@@ -154,7 +155,7 @@ def train_model( model_name, new = True, old_model = "Model_predictor"):
     if new:
         model = initialize_model()
     else:
-        model = keras.models.load_model(f'../models/{old_model}.h5')
+        model = get_model(old_model)
         pass
 
     df = pd.read_csv('data/balanced_35k.csv', index_col=0)
@@ -170,7 +171,7 @@ def train_model( model_name, new = True, old_model = "Model_predictor"):
 
     #validation_data = GENERATOR_train
     )
-    model.save(f'../models/{model_name}')
+    save_model(model)
     return model
 
 train_model("model_test")
