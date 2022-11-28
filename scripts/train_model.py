@@ -102,7 +102,7 @@ def initialize_model():
 datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
 
 def createGenerator(dff, batch_size=BATCH_SIZE):
-    dff["y_cat"] = dff["y_cat"].astype("string")
+    #dff["y_cat"] = dff["y_cat"].astype("string")
     # Shuffles the dataframe, and so the batches as well
     dff = dff.sample(frac=1)
 
@@ -127,14 +127,13 @@ def createGenerator(dff, batch_size=BATCH_SIZE):
         # idx to reach
         end = idx + X1[0].shape[0]
         # get next batch of lines from df
-        X_im_size = dff["size"][idx:end].to_numpy()
-        X_timestep = dff[["year", "sin_month", "cos_month", "sin_day", "cos_day", "sin_hour", "cos_hour", "sin_minute","cos_minute", "0", "1", "2", "3", "4", "5", "6"]][idx:end].to_numpy()
-        X_t_size = dff["title_len"][idx:end].to_numpy()
-        X_NLP = dff["padding"][idx:end]
+        X_im_size = dff["size"].iloc[idx:end].to_numpy()
+        X_timestep = dff[["year", "sin_month", "cos_month", "sin_day", "cos_day", "sin_hour", "cos_hour", "sin_minute","cos_minute", 0, 1, 2, 3,4, 5, 6]].iloc[idx:end].to_numpy()
+        X_t_size = dff["title_len"].iloc[idx:end].to_numpy()
+        X_NLP = dff["padding"].iloc[idx:end]
         X_NLP =[np.expand_dims(x, axis=0) for x in X_NLP]
         X_NLP = np.array(X_NLP)
         X_NLP = np.concatenate(X_NLP, axis = 0)
-        dff_verif = dff[idx:end]
         # Updates the idx for the next batch
         idx = end
 #         print("batch nb : ", batch, ",   batch_size : ", X1[0].shape[0])
@@ -162,7 +161,7 @@ def train_model( model_name, new = False, old_model = "Model_predictor"):
         pass
     file_path  = os.path.abspath(os.path.join(os.path.dirname( __file__ ), 'data/balanced_35k.csv'))
     df = pd.read_csv(file_path, index_col=0)
-    df = preprocess(df)
+    X_dict, y, df = preprocess(df)
     GENERATOR = createGenerator(df)
     model.fit(
     GENERATOR,

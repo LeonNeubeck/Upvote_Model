@@ -5,7 +5,7 @@ import requests
 from PIL import Image
 import base64
 from io import BytesIO
-
+import time
 
 
 CSS = """
@@ -70,7 +70,10 @@ st.markdown("""
     ##### Image
 """)
 
+time_string = str(d)+ " " +str(t)
 
+time_stamp = int(time.mktime(time.strptime(time_string, '%Y-%m-%d %H:%M:%S'))) - time.timezone
+st.write(time_stamp)
 def load_image(image_file):
 	img = Image.open(image_file)
 	return img
@@ -93,12 +96,19 @@ else:
     params = {
         "title": title,
         "image": im_b64,
-        "time_stamp": 0,
+        "time_stamp": time_stamp,
     }
 
 
+if st.button('predict score'):
+    st.write('Calculating...')
+    r = requests.get(f"http://localhost:8000/getPrediction",params = params).json()
+    st.write(f'{r}')
+else:
+    st.write('Click the button once all the data has been inputed')
 
-r = requests.get(f"http://localhost:8000/getPrediction",params = params).json()
+
+
 
 
 
