@@ -30,7 +30,7 @@ async def root():
 #Sample url = http://localhost:8000/getPrediction?timestamp=2012-04-22T04:20:11&title=the%20best%20dog%20ever&url=imgururl.jpg
 #Url output = {"prediction":0,"timestamp":"2012-04-22T04:20:11","title":"the best dog ever","url":"imgururl.jpg"}
 @app.get("/getPrediction")
-def timestampPrediction(time_stamp, title, image):
+def getPrediction(time_stamp, title, image):
 
     img = base64_to_pil(image)
     im_size = img.size()

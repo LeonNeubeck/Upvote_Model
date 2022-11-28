@@ -14,7 +14,7 @@ max_length = 10
 
 
 def pred_preproc(time_stamp, image_arr, image_size, title):
-
+    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA processing AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
     X_im = image_arr
     X_im_size = image_size
     X_t_size = count_len(title)
@@ -33,7 +33,7 @@ def pred_preproc(time_stamp, image_arr, image_size, title):
 def predict(time_stamp, image_arr, image_size, title, model):
 
 
-
+    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA PREDICTING AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 
     X_dict = pred_preproc(time_stamp, image_arr, image_size, title)
     y_pred = model.predict(X_dict)
