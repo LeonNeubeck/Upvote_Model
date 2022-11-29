@@ -108,6 +108,8 @@ else:
 
     st.write("start")
     image = Image.open(uploaded_file)
+    w, h  = image.size
+    im_size = w*h
     box = find_square(image.size)
     crop_image = image.crop(box)
     img = crop_image.resize((128, 128))
@@ -119,6 +121,7 @@ else:
     st.write("done!!!")
     payload ={"title": title,
               "time_stamp": time_stamp,
+              "image_size": im_size,
               "filedata": im_b64}
 
 
