@@ -93,16 +93,16 @@ else:
     im_b64 = base64.b64encode(im_bytes)
 
     st.write("done!!!")
-    params = {
-        "title": title,
-        "image": im_b64,
-        "time_stamp": time_stamp,
-    }
+    payload ={"title": title,
+              "time_stamp": time_stamp,
+              "filedata": im_b64}
+
+
 
 
 if st.button('predict score'):
     st.write('Calculating...')
-    r = requests.get(f"http://localhost:8000/getPrediction",params = params).json()
+    r = requests.post(f"http://127.0.0.1:8000/getPrediction", data = payload).json()
     st.write(f'{r}')
 else:
     st.write('Click the button once all the data has been inputed')
