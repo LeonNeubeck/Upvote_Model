@@ -29,32 +29,25 @@ async def root():
 #Sample url = http://localhost:8000/getPrediction?timestamp=2012-04-22T04:20:11&title=the%20best%20dog%20ever&url=imgururl.jpg
 #Url output = {"prediction":0,"timestamp":"2012-04-22T04:20:11","title":"the best dog ever","url":"imgururl.jpg"}
 @app.post("/getPrediction")
-def getPrediction(title: str = Form(...), time_stamp: int = Form(...), image: str = Form(...)): #time_stamp, title):
-    img = base64_to_pil(image)
-    im_size = img.size()
-    im_arr = np.array(img)
-    A,B,C = im_arr.shape
-    if C == 4:
-        im_arr = im_arr[:,:,:3]
-    result = predict(time_stamp, im_arr, im_size, title, model)
+def getPrediction(title: str = Form(...), time_stamp: int = Form(...), filedata: str = Form(...)): #time_stamp, title):
+    # img = base64_to_pil(filedata)
+    # im_size = img.size()
+    # im_arr = np.array(img)
+    # A,B,C = im_arr.shape
+    # if C == 4:
+    #     im_arr = im_arr[:,:,:3]
+    # print(img, im_size, im_arr, title)
+    #result = predict(time_stamp, im_arr, im_size, title, model)
 
-    return {'prediction':result,
+    return {'prediction':0,
             'timestamp':time_stamp,
             'title':title,
-            'image_arr':im_arr,
-            "image_size": im_size}
+            #'image_arr':im_arr,
+            #"image_size": im_size
+            }
 
 
-def upload(filename: str = Form(...), filedata: str = Form(...)):
-    image_as_bytes = str.encode(filedata)  # convert string to bytes
-    img_recovered = base64.b64decode(image_as_bytes)  # decode base64string
-    try:
-        with open("uploaded_" + filename, "wb") as f:
-            f.write(img_recovered)
-    except Exception:
-        return {"message": "There was an error uploading the file"}
 
-    return {"message": f"Successfuly uploaded {filename}"}
 
 @app.get("/timestampPrediction")
 def timestampPrediction(timestamp):

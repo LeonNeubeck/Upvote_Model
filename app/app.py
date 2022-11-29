@@ -78,6 +78,27 @@ def load_image(image_file):
 	img = Image.open(image_file)
 	return img
 
+def find_square(tuple_):
+    width, height = tuple_
+    if width>height:
+        lower = height
+        upper = 0
+        delta = int((width-height)/2)
+        left = delta
+        right = width-delta
+    elif width<height:
+        left = 0
+        right = width
+        delta = int((height-width)/2)
+        upper = delta
+        lower = height-delta
+    else:
+        left = 0
+        right = width
+        upper = 0
+        lower = height
+    return (left, upper, right, lower)
+
 st.set_option('deprecation.showfileUploaderEncoding', False)
 uploaded_file = st.file_uploader("Choose a PNG or JPEG file", type = ['png','jpg','jpeg'], accept_multiple_files =False)
 show_file = st.empty
@@ -86,7 +107,10 @@ if not uploaded_file:
 else:
 
     st.write("start")
-    img = Image.open(uploaded_file)
+    image = Image.open(uploaded_file)
+    box = find_square(image.size)
+    crop_image = image.crop(box)
+    img = crop_image.resize((128, 128))
     im_file = BytesIO()
     img.save(im_file, format="PNG")
     im_bytes = im_file.getvalue()  # im_bytes: image in binary format.
@@ -102,14 +126,16 @@ else:
 
 if st.button('predict score'):
     st.write('Calculating...')
-    r = requests.post(f"http://127.0.0.1:8000/getPrediction", data = payload).json()
+    r= requests.post(f"http://127.0.0.1:8000/getPrediction", data = payload).json()
+    print(r)
     st.write(f'{r}')
 else:
     st.write('Click the button once all the data has been inputed')
 
 
 
-
+#### use image :image, title: title, time: t, date:  <--- from frotnend(this file)
+# prediction<---- from backedn (api,json file) to show user
 
 
 # with st.form(key='params_for_api'):
