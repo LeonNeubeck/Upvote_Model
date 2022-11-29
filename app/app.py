@@ -24,21 +24,10 @@ if st.checkbox('Inject CSS'):
 
 st.markdown("""
     # Reddit Upvote Model 🐶
-    ### Introduction:
+
 """)
-if st.checkbox('Show Description'):
-    st.write('''
-        This code will only be executed when the check box is checked
 
-        Here is the description to introduce the Upvote model
-        ''')
 
-st.markdown("""
-
-    # Evaluation 🧮
-    #### Input Your Post:
-    - Title
-""")
 
 
 ### Title
@@ -106,7 +95,6 @@ if not uploaded_file:
     st.write('Please upload a file:'.format(''.join(['png','jpg','jpeg'])))
 else:
 
-    st.write("start")
     image = Image.open(uploaded_file)
     w, h  = image.size
     im_size = w*h
@@ -118,11 +106,28 @@ else:
     im_bytes = im_file.getvalue()  # im_bytes: image in binary format.
     im_b64 = base64.b64encode(im_bytes)
 
-    st.write("done!!!")
     payload ={"title": title,
               "time_stamp": time_stamp,
               "image_size": im_size,
               "filedata": im_b64}
+
+
+def show(image, title, d, t, r):
+    st.markdown("""
+    ## Results""")
+    st.markdown(f"{title}")
+    st.write('Post time:', d, t)
+    st.image(image, caption='Your dog post')
+    cat = r["category"]
+    if cat==5:
+        st.success('Congrats you will likely get more than 500 upvotes!!!')
+    elif cat == 4:
+        st.info('You will get between 100 and 500 upvotes')
+    elif cat == 3:
+        st.warning('You will get between 30 and 100 upvotes')
+    else:
+        st.error('Damn this post is kinda bad, you will get less than 30 upvotes')
+    st.write(r["probabilities"])
 
 
 
@@ -130,13 +135,15 @@ else:
 if st.button('predict score'):
     st.write('Calculating...')
     r= requests.post(f"http://127.0.0.1:8000/getPrediction", data = payload).json()
-    print(r)
-    st.write(f'{r}')
+    show(image, title, d, t, r)
 else:
     st.write('Click the button once all the data has been inputed')
 
 
 
+
+
+##
 #### use image :image, title: title, time: t, date:  <--- from frotnend(this file)
 # prediction<---- from backedn (api,json file) to show user
 
