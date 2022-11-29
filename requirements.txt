@@ -254,7 +254,7 @@ twine==4.0.1
 typing_extensions==4.4.0
 tzdata==2022.6
 tzlocal==4.2
--e git+ssh://git@github.com/LeonNeubeck/Upvote_Model.git@dac0d626c944173f037c3ec4fe78620f52c2b461#egg=Upvote_Model
+#-e git+ssh://git@github.com/LeonNeubeck/Upvote_Model.git@dac0d626c944173f037c3ec4fe78620f52c2b461#egg=Upvote_Model
 urllib3==1.26.12
 uvicorn==0.20.0
 validators==0.20.0
