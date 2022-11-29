@@ -5,6 +5,8 @@ import requests
 from PIL import Image
 import base64
 from io import BytesIO
+import json
+
 
 
 
@@ -64,7 +66,9 @@ t = st.time_input(
 )
 
 userdatetime = datetime.datetime.combine(d,t)
-date_str = userdatetime.strftime("%Y-%m-%dT%H:%M:%S")
+date_seconds = userdatetime.timestamp()
+# date_str = userdatetime.strftime("%Y-%m-%dT%H:%M:%S")
+# st.write(date_str)
 
 ### Images
 st.markdown("""
@@ -93,16 +97,21 @@ else:
     im_b64 = base64.b64encode(im_bytes)
 
     st.write("done!!!")
-    params = {
+
+    data = {
+        'data': im_b64, # data represent image
         "title": title,
-        "image": im_b64,
-        "time_stamp": date_str,
+        "time_stamp": date_seconds # date_str
     }
+    response = requests.post(f"http://localhost:8000/getPrediction",
+                             data=data) #json = data
+    st.write(response)
 
 
 
 
-r = requests.get(f"http://localhost:8000/getPrediction",params = params).json()
+
+
 
 
 # time =
