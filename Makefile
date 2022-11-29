@@ -1,8 +1,12 @@
+
 # ----------------------------------
 #          INSTALL & TEST
 # ----------------------------------
 install_requirements:
 	@pip install -r requirements.txt
+
+check_code:
+	@flake8 scripts/* Upvote_Model/*.py
 
 check_code:
 	@flake8 scripts/* Upvote_Model/*.py
@@ -53,3 +57,9 @@ pypi_test:
 
 pypi:
 	@twine upload dist/* -u $(PYPI_USERNAME)
+
+preprocess:
+	python -c 'from preproc import run; run()'
+
+train:
+	python -c 'from scripts.train_model import run; run()'
