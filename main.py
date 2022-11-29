@@ -29,21 +29,29 @@ async def root():
 #Sample url = http://localhost:8000/getPrediction?timestamp=2012-04-22T04:20:11&title=the%20best%20dog%20ever&url=imgururl.jpg
 #Url output = {"prediction":0,"timestamp":"2012-04-22T04:20:11","title":"the best dog ever","url":"imgururl.jpg"}
 @app.post("/getPrediction")
-def getPrediction(title: str = Form(...), time_stamp: int = Form(...), filedata: str = Form(...)): #time_stamp, title):
-    # img = base64_to_pil(filedata)
-    # im_size = img.size()
-    # im_arr = np.array(img)
-    # A,B,C = im_arr.shape
-    # if C == 4:
-    #     im_arr = im_arr[:,:,:3]
-    # print(img, im_size, im_arr, title)
-    #result = predict(time_stamp, im_arr, im_size, title, model)
+def getPrediction(title: str = Form(...), time_stamp: int = Form(...), image_size: int = Form(...), filedata: str = Form(...)): #time_stamp, title):
+    img = base64_to_pil(filedata)
+    im_size = image_size
+    im_arr = np.array(img)
+    A,B,C = im_arr.shape
+    if C == 4:
+        im_arr = im_arr[:,:,:3]
+    result_1 = predict(time_stamp, im_arr, im_size, title, model)
+    result = result_1[0].tolist()
+    print(result)
+    max_value = max(result)
+    max_index = result.index(max_value)
+    print(result, max_index)
+    return {'category': max_index,
+            'probabilities':{
+                "0": result[0],
+                "1": result[1],
+                "2": result[2],
+                "3": result[3],
+                "4": result[4],
+                "5": result[5]
 
-    return {'prediction':0,
-            'timestamp':time_stamp,
-            'title':title,
-            #'image_arr':im_arr,
-            #"image_size": im_size
+            }
             }
 
 

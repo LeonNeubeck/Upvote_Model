@@ -248,6 +248,28 @@ def transform_timestamp(original_df):
         df['year'] = scaler.fit_transform(df[['year']].copy())
     return df
 
+#for single input
+def transform_timestamp_single_input(original_df):
+    """
+    Takes 'time_stamp' column from df and returns df preprocessed and
+    ready for machine learning
+    """
+    df = original_df.copy()
+    df = basic(df)
+    df = cyclize(df)
+
+    for column in range(0,7):
+        if df["weekday"][0] == column:
+            df[column] = 1
+        else:
+            df[column] = 0
+    if 'year' in df.columns:
+        scaler = MinMaxScaler()
+        df['year'] = scaler.fit_transform(df[['year']].copy())
+    print(df)
+    return df
+
+
 ###Binglins NLP
 
 
