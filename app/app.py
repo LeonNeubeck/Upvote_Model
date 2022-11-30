@@ -8,19 +8,21 @@ from io import BytesIO
 import time
 
 import matplotlib.pyplot as plt
+import seaborn as sns
+from json import JSONDecodeError
 
 
 CSS = """
 h1 {
-    color: red;
+    color: black;
 }
 .stApp {
-    background-image: url(https://bestlifeonline.com/wp-content/uploads/sites/3/2019/12/shutterstock_556211362.jpg?quality=82&strip=all);
-    background-size: cover;
+    background-image: url(https://static.vecteezy.com/system/resources/previews/005/230/466/non_2x/cute-pug-dog-cartoon-seamless-pattern-illustration-vector.jpg);
+    # background-size: cover;
 }
 """
-if st.checkbox('Inject CSS'):
-     st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
+# if st.checkbox('Inject CSS'):
+st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
 
 st.markdown("""
     # Reddit Upvote Model 🐶
@@ -31,7 +33,7 @@ st.markdown("""
 st.markdown("""
     #####  Post Title
 """)
-title = st.text_input("",'Look at this cute Dog')
+title = st.text_input("",'')
 
 st.markdown("""
     #
@@ -55,7 +57,7 @@ st.markdown("""
 time_string = str(d)+ " " +str(t)
 
 time_stamp = int(time.mktime(time.strptime(time_string, '%Y-%m-%d %H:%M:%S'))) - time.timezone
-st.write(time_stamp)
+# st.write(time_stamp)
 def load_image(image_file):
 	img = Image.open(image_file)
 	return img
@@ -106,66 +108,59 @@ else:
 
 
 def show(image, title, d, t, r):
-    st.markdown("""
-    ## Results""")
-    st.markdown(f"Title:{title}")
-    st.write('Post time:', d, t)
+    st.markdown( f"##### Title:  {title}")
+    st.write('##### Post time:', d, t)
     st.image(image, caption='Your dog post')
     cat = r["category"]
+    st.markdown("""
+    ## Results""")
     if cat==5:
-        st.success('Congrats you will likely get more than 500 upvotes!!!')
+        st.success('Congrats you will likely get more than 500 upvotes!!! 🥳')
     elif cat == 4:
-        st.info('You will get between 100 and 500 upvotes')
+        st.info('You will get between 100 and 500 upvotes 🎉')
     elif cat == 3:
         st.warning('You will get between 30 and 100 upvotes')
+    elif cat == 2:
+        st.warning('Hold on, you will get less than 30 upvotes 🤔')
+    elif cat == 1:
+        st.warning('Hold on, you will get less than 30 upvotes 🤔')
     else:
-        st.error('Damn this post is kinda bad, you will get less than 30 upvotes')
-    st.write(r["probabilities"])
+        st.error('Damn this post is kinda bad, no one would give you upvotes 😭')
+    # st.write(r["probabilities"])
 
 
 
 
 if st.button('predict score'):
-    st.write('Calculating...')
-    r= requests.post(f"http://127.0.0.1:8000/getPrediction", data = payload).json()
-    show(image, title, d, t, r)
-    sizes = []
-    for i in range(6):
-        sizes.append(r["probabilities"][f'{i}'])
-    st.write(sizes)
-    # Pie chart, where the slices will be ordered and plotted counter-clockwise:
-    labels = '0-1 upvotes', '2-15 upvotes', '15-30 upvotes', '30-100 upvotes', '100-500 upvotes','500+ upvotes'
-    explode = (0, 0.1, 0, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
+    st.write('Connecting...')
 
-    fig1, ax1 = plt.subplots()
-    ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
-            shadow=True, startangle=90)
-    ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+    try:
+        r= requests.post(f"http://127.0.0.1:8000/getPrediction", data = payload).json()
 
-    st.pyplot(fig1)
+        show(image, title, d, t, r)
+        sizes = []
+        for i in range(6):
+            sizes.append(r["probabilities"][f'{i}'])
+
+        fig,axes =plt.subplots()
+        bar_label = ['0-1 upvotes', '2-15 upvotes', '15-30 upvotes', '30-100 upvotes', '100-500 upvotes','500+ upvotes']
+        axes = sns.barplot(x=bar_label,y=sizes)
+        axes.set_xticks(axes.get_xticks(), axes.get_xticklabels(), rotation=45, ha='right')
+
+        fig.tight_layout()
+        st.markdown('###### 👇 Probabilities for getting each level of upvotes:')
+        st.pyplot(fig)
+
+    except JSONDecodeError:
+        st.markdown('## ❌ Error, title only containing Unknown or STOPWORDS(e.g. I, he, she)')
+    except NameError:
+        st.markdown('## ❌ Error, no Image uploaded')
+    except KeyError:
+        st.markdown('## ❌ Error, no Title inputed')
+
+
 
 
 
 else:
     st.write('Click the button once all the data has been inputed')
-
-
-
-
-
-
-##
-#### use image :image, title: title, time: t, date:  <--- from frotnend(this file)
-# prediction<---- from backedn (api,json file) to show user
-
-
-# with st.form(key='params_for_api'):
-
-#     post_date = st.date_input('Date', value=datetime.datetime(2012, 10, 6, 12, 10, 20))
-#     post_time = st.time_input('Time', value=datetime.datetime(2012, 10, 6, 12, 10, 20))
-#     pickup_datetime = f'{post_date} {post_time}'
-#     title = st.text_input('Post title')
-#     # images ...
-#     passenger_count = st.number_input('passenger_count', min_value=1, max_value=8, step=1, value=1)
-
-#     st.form_submit_button('Make prediction')
