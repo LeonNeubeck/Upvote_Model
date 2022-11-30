@@ -25,7 +25,7 @@ from keras.applications.resnet import ResNet50, preprocess_input
 from keras.preprocessing.image import ImageDataGenerator
 
 
-from final_preprocessor import preprocess
+from scripts.final_preprocessor import preprocess
 from models import loader
 BATCH_SIZE = 32
 
@@ -153,7 +153,7 @@ def createGenerator(dff, batch_size=BATCH_SIZE):
 import os
 
 
-def train_model( model_name, new = False, old_model = "Model_predictor"):
+def train_model( model_name, new = True, old_model = "Model_predictor"):
     if new:
         model = initialize_model()
     else:
@@ -173,7 +173,8 @@ def train_model( model_name, new = False, old_model = "Model_predictor"):
 
     #validation_data = GENERATOR_train
     )
-    loader.save_model(model)
+    loader.save_model(model, model_name)
     return model
 
-train_model("model_test")
+def run():
+    train_model("model_test")

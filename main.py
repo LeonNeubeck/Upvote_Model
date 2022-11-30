@@ -9,6 +9,8 @@ import numpy as np
 from scripts.prediction import predict
 from models.loader import get_model
 from fastapi import FastAPI, File, UploadFile, Form
+from keras.applications.resnet import preprocess_input
+
 app = FastAPI()
 model = get_model()
 
@@ -36,6 +38,9 @@ def getPrediction(title: str = Form(...), time_stamp: int = Form(...), image_siz
     A,B,C = im_arr.shape
     if C == 4:
         im_arr = im_arr[:,:,:3]
+    print(im_arr)
+    im_arr = preprocess_input(im_arr, data_format=None)
+    print(im_arr)
     result_1 = predict(time_stamp, im_arr, im_size, title, model)
     result = result_1[0].tolist()
     print(result)
