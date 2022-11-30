@@ -7,6 +7,8 @@ import base64
 from io import BytesIO
 import time
 
+import matplotlib.pyplot as plt
+
 
 CSS = """
 h1 {
@@ -18,40 +20,31 @@ h1 {
 }
 """
 if st.checkbox('Inject CSS'):
-    st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
-
-
+     st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
 
 st.markdown("""
     # Reddit Upvote Model 🐶
-
+    #
 """)
-
-
-
 
 ### Title
 st.markdown("""
-
-    ##### Title
+    #####  Post Title
 """)
-title = st.text_input('Post title', '')
-
+title = st.text_input("",'Look at this cute Dog')
 
 st.markdown("""
-
-    ##### DateTime
+    #
+    #####  Post Datetime
 """)
-### Datetime
-d = st.date_input(
-    "Date",
-    datetime.date(2022, 11, 10),
-    )
-t = st.time_input(
-    "Time",
-    datetime.time(8, 00)
-)
-st.write('DateTime:', d, t)
+columns = st.columns(2)
+
+d = columns[0].date_input("Date", datetime.date(2022, 12, 2))
+columns[0].write(d)
+
+t = columns[1].time_input("Time", datetime.time(8, 00))
+columns[1].write(t)
+
 
 ### Images
 st.markdown("""
@@ -115,7 +108,7 @@ else:
 def show(image, title, d, t, r):
     st.markdown("""
     ## Results""")
-    st.markdown(f"{title}")
+    st.markdown(f"Title:{title}")
     st.write('Post time:', d, t)
     st.image(image, caption='Your dog post')
     cat = r["category"]
@@ -136,8 +129,26 @@ if st.button('predict score'):
     st.write('Calculating...')
     r= requests.post(f"http://127.0.0.1:8000/getPrediction", data = payload).json()
     show(image, title, d, t, r)
+    sizes = []
+    for i in range(6):
+        sizes.append(r["probabilities"][f'{i}'])
+    st.write(sizes)
+    # Pie chart, where the slices will be ordered and plotted counter-clockwise:
+    labels = '0-1 upvotes', '2-15 upvotes', '15-30 upvotes', '30-100 upvotes', '100-500 upvotes','500+ upvotes'
+    explode = (0, 0.1, 0, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
+
+    fig1, ax1 = plt.subplots()
+    ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+            shadow=True, startangle=90)
+    ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+    st.pyplot(fig1)
+
+
+
 else:
     st.write('Click the button once all the data has been inputed')
+
 
 
 
