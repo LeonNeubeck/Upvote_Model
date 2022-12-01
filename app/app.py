@@ -146,6 +146,7 @@ if st.button('predict score'):
             'title' : title
         }
         r = requests.post(f"https://upvote-model-trmx4q2kva-an.a.run.app/returnTitle", data = payload).json()
+        st.write(r)
         # r= requests.post(f"https://upvote-model-trmx4q2kva-an.a.run.app/getPrediction", data = payload).json()
 
         # show(image, title, d, t, r)
