@@ -29,12 +29,12 @@ from scripts.final_preprocessor import preprocess
 from models import loader
 BATCH_SIZE = 32
 
-def initialize_model():
+def initialize_model(learning=0.001):
     #Image convolution branch
     input_Im = Input(shape=(128,128,3), name="input_Im")
-    conv1 = Conv2D(64, kernel_size=(3, 3),activation='relu')(input_Im)
+    conv1 = Conv2D(128, kernel_size=(3, 3),activation='relu')(input_Im)#64
     pool1 = MaxPooling2D(pool_size=(2,2))(conv1)
-    conv2 = Conv2D(32, kernel_size=(3, 3),activation='relu')(pool1)
+    conv2 = Conv2D(64, kernel_size=(3, 3),activation='relu')(pool1)#32
     pool2 = MaxPooling2D(pool_size=(2,2))(conv2)
     conv3 = Conv2D(32, kernel_size=(3, 3),activation='relu')(pool2)
     pool3 = MaxPooling2D(pool_size=(2,2))(conv3)
@@ -53,8 +53,8 @@ def initialize_model():
     #NLP branch
     input_NLP = Input(shape = (10,40), name="input_NLP")###dont know dim padded and embedded inputs
     mask = Masking()(input_NLP)
-    lstm = LSTM(32, activation = "tanh",kernel_initializer=initializer, kernel_regularizer="l1")(mask)
-    dense1 = Dense(20, activation = "relu")(lstm)
+    lstm = LSTM(64, activation = "tanh",kernel_initializer=initializer, kernel_regularizer="l1")(mask)#32
+    dense1 = Dense(32, activation = "relu")(lstm)#20
     flat3 = Flatten()(dense1)
 
     #title_size branch
@@ -68,13 +68,13 @@ def initialize_model():
     #davids timestep
     input_timestep = Input(shape=(16,),name="input_timestep")#dont know dims
     norm = Normalization()(input_timestep)
-    step1 = Dense(32, activation='relu')(norm)
+    step1 = Dense(64, activation='relu')(norm)#32
     #drop1 = Dropout(0.3)(step1)
-    step2 = Dense(16, activation='relu')(step1)
+    step2 = Dense(32, activation='relu')(step1)#26
     #drop2 = Dropout(0.2)(step2)
-    step3 = Dense(8, activation='relu')(step2)
+    step3 = Dense(16, activation='relu')(step2)#8
     #drop3 = Dropout(0.2)(step3)
-    step4 = Dense(4, activation='relu')(step3)
+    step4 = Dense(8, activation='relu')(step3)#4
     #drop4 = Dropout(0.2)(step4)
     #drop4 = Dropout(0.1)(step5)
     flat5 = Flatten()(step4)
@@ -84,7 +84,7 @@ def initialize_model():
 
     #concat them
     merge = concatenate([flat1, flat2, flat3, flat4, flat5])
-    final1 = Dense(128, activation='relu')(merge)
+    final1 = Dense(156, activation='relu')(merge)#128
     final2 = Dense(64, activation='relu')(final1)
     final2 = Dense(16, activation='relu')(final1)
     output = Dense(6, activation='softmax')(final2)
@@ -92,11 +92,13 @@ def initialize_model():
 
     #final model
     model = Model(inputs=[input_Im, input_size_im, input_NLP, input_size_title, input_timestep], outputs=output)
-
+    #optimizer = keras.optimizers.experimental.RMSprop()
     #print(model.summary())
     model.compile(loss='categorical_crossentropy',
-                optimizer='adam',
+                optimizer="adam",
                 metrics=['accuracy'])
+
+
     return model
 
 datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
@@ -153,9 +155,9 @@ def createGenerator(dff, batch_size=BATCH_SIZE):
 import os
 
 
-def train_model( model_name, new = True, old_model = "Model_predictor"):
+def train_model( model_name, epochs = 100, new = False, old_model = "Model_predictor", learning = 0.001):
     if new:
-        model = initialize_model()
+        model = initialize_model(learning)
     else:
         model = loader.get_model(old_model)
         pass
@@ -163,13 +165,25 @@ def train_model( model_name, new = True, old_model = "Model_predictor"):
     df = pd.read_csv(file_path, index_col=0)
     X_dict, y, df = preprocess(df)
     GENERATOR = createGenerator(df)
+    checkpoint_path = f"/checkpoint/{model_name}.h5"
+    cp_callback = keras.callbacks.ModelCheckpoint(
+    filepath=checkpoint_path,
+    verbose=1,
+    save_best_only = True,
+    save_freq=3*893*BATCH_SIZE)
+    es = keras.callbacks.EarlyStopping(
+    monitor='accuracy',
+    patience=20,
+    restore_best_weights=True,
+)
     model.fit(
     GENERATOR,
-    epochs=100,
+    epochs=epochs,
     batch_size = 32,
     steps_per_epoch=893,
     workers = 1,
     use_multiprocessing=False,
+    callbacks = [cp_callback, es]
 
     #validation_data = GENERATOR_train
     )
@@ -177,4 +191,4 @@ def train_model( model_name, new = True, old_model = "Model_predictor"):
     return model
 
 def run():
-    train_model("model_test")
+    train_model("model_testing_other_layers_maybe_final_2", epochs = 50, new = False, old_model = "model_testing_other_layers_maybe_final")
