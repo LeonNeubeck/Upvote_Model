@@ -9,6 +9,7 @@ import numpy as np
 from scripts.prediction import predict
 from models.loader import get_model
 from fastapi import FastAPI, File, UploadFile, Form
+
 app = FastAPI()
 model = get_model()
 

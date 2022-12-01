@@ -63,3 +63,6 @@ preprocess:
 
 train:
 	python -c 'from scripts.train_model import run; run()'
+
+run_api_local:
+	docker run -it -e PORT=8000 -p 8000:8000 $(IMAGE):dev
