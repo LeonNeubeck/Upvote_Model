@@ -142,10 +142,7 @@ if st.button('predict score'):
     st.write('Connecting...')
 
     try:
-        # r = requests.get(f"https://upvote-model-trmx4q2kva-an.a.run.app/returnTitle?title=hellothisismyapi").json()
-        # st.write(r)
         r= requests.post(f"https://upvote-model-trmx4q2kva-an.a.run.app/getPrediction", data = payload).json()
-        #r= requests.post(f"http://127.0.0.1:8000/getPrediction", data = payload).json()
 
         show(image, title, d, t, r)
         sizes = []
@@ -161,8 +158,8 @@ if st.button('predict score'):
         st.markdown('###### 👇 Probabilities for getting each level of upvotes:')
         st.pyplot(fig)
 
-   # except JSONDecodeError:
-    #    st.markdown('## ❌ Error, title only containing Unknown Words or STOPWORDS(e.g. I, he, she)')
+    except JSONDecodeError:
+        st.markdown('## ❌ Error, title only containing Unknown Words or STOPWORDS(e.g. I, he, she)')
     except NameError:
         st.markdown('## ❌ Error, no Image uploaded')
     except KeyError:
