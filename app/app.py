@@ -142,10 +142,7 @@ if st.button('predict score'):
     st.write('Connecting...')
 
     try:
-        payload = {
-            'title' : title
-        }
-        r = requests.post(f"https://upvote-model-trmx4q2kva-an.a.run.app/returnTitle", data = payload).json()
+        r = requests.post(f"https://upvote-model-trmx4q2kva-an.a.run.app/returnTitle?title=heyholetsgo").json()
         st.write(r)
         # r= requests.post(f"https://upvote-model-trmx4q2kva-an.a.run.app/getPrediction", data = payload).json()
 
