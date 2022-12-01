@@ -9,8 +9,10 @@ import time
 
 import matplotlib.pyplot as plt
 import seaborn as sns
-from json import JSONDecodeError
+from simplejson import JSONDecodeError
 
+
+t = "<div>Hello there my <span class='highlight blue'>name <span class='bold'>yo</span> </span> is <span class='highlight red'>Fanilo <span class='bold'>Name</span></span></div>"
 
 CSS = """
 h1 {
@@ -19,6 +21,9 @@ h1 {
 .stApp {
     background-image: url(https://static.vecteezy.com/system/resources/previews/005/230/466/non_2x/cute-pug-dog-cartoon-seamless-pattern-illustration-vector.jpg);
     # background-size: cover;
+}
+.block-container {
+    background-color: #b7def7;
 }
 """
 # if st.checkbox('Inject CSS'):
@@ -154,7 +159,7 @@ if st.button('predict score'):
         st.pyplot(fig)
 
     except JSONDecodeError:
-        st.markdown('## ❌ Error, title only containing Unknown or STOPWORDS(e.g. I, he, she)')
+        st.markdown('## ❌ Error, title only containing Unknown Words or STOPWORDS(e.g. I, he, she)')
     except NameError:
         st.markdown('## ❌ Error, no Image uploaded')
     except KeyError:
