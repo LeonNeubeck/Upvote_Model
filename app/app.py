@@ -13,7 +13,7 @@ from simplejson import JSONDecodeError
 
 
 t = "<div>Hello there my <span class='highlight blue'>name <span class='bold'>yo</span> </span> is <span class='highlight red'>Fanilo <span class='bold'>Name</span></span></div>"
-
+requests.get(f"https://upvote-model-trmx4q2kva-an.a.run.app/")
 CSS = """
 h1 {
     color: black;
