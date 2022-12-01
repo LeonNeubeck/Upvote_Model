@@ -6,7 +6,7 @@ import os
 
 ##absolute path this
 
-def get_model(name = "model_testing_other_layers_maybe_final"):
+def get_model(name = "model_testing_other_layers_maybe_final_2"):
     file_path  = os.path.abspath(os.path.join(os.path.dirname( __file__ ), f'{name}.h5'))
     return keras.models.load_model(file_path)
 
