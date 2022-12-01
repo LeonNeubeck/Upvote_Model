@@ -310,7 +310,16 @@ def preprocessing(text, contraction_mapping=CONTRACTION_MAP):
     sentence = sentence.strip()
 
     # 2. Remove Stopwords
-    STOPWORDS = set(stopwords.words('english'))
+    STOPWORDS = None
+    try:
+        STOPWORDS = set(stopwords.words('english'))
+    except:
+        nltk.download('stopwords')
+        nltk.download('punkt')
+        nltk.download('wordnet')
+        nltk.download('omw-1.4')
+        STOPWORDS = set(stopwords.words('english'))
+
     remove_s = " ".join([word for word in str(sentence).split() if word not in STOPWORDS])
 
     # 3. Word Tokenize
