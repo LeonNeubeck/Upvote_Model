@@ -160,8 +160,8 @@ if st.button('predict score'):
         st.markdown('###### 👇 Probabilities for getting each level of upvotes:')
         st.pyplot(fig)
 
-    except JSONDecodeError:
-        st.markdown('## ❌ Error, title only containing Unknown Words or STOPWORDS(e.g. I, he, she)')
+   # except JSONDecodeError:
+    #    st.markdown('## ❌ Error, title only containing Unknown Words or STOPWORDS(e.g. I, he, she)')
     except NameError:
         st.markdown('## ❌ Error, no Image uploaded')
     except KeyError:
