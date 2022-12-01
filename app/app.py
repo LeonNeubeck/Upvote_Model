@@ -142,7 +142,7 @@ if st.button('predict score'):
     st.write('Connecting...')
 
     try:
-        r= requests.post(f"http://localhost:8000/getPrediction", data = payload).json()
+        r= requests.post(f"http://127.0.0.1:8000/getPrediction", data = payload).json()
 
         show(image, title, d, t, r)
         sizes = []
