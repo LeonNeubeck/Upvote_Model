@@ -56,8 +56,10 @@ st.markdown("""
 
 time_string = str(d)+ " " +str(t)
 
+
 time_stamp = int(time.mktime(time.strptime(time_string, '%Y-%m-%d %H:%M:%S'))) - time.timezone
 # st.write(time_stamp)
+
 def load_image(image_file):
 	img = Image.open(image_file)
 	return img
