@@ -142,21 +142,25 @@ if st.button('predict score'):
     st.write('Connecting...')
 
     try:
-        r= requests.post(f"https://upvote-model-trmx4q2kva-an.a.run.app/getPrediction", data = payload).json()
+        payload = {
+            'title' : title
+        }
+        r = requests.post(f"https://upvote-model-trmx4q2kva-an.a.run.app/returnTitle", data = payload).json()
+        # r= requests.post(f"https://upvote-model-trmx4q2kva-an.a.run.app/getPrediction", data = payload).json()
 
-        show(image, title, d, t, r)
-        sizes = []
-        for i in range(6):
-            sizes.append(r["probabilities"][f'{i}'])
+        # show(image, title, d, t, r)
+        # sizes = []
+        # for i in range(6):
+        #     sizes.append(r["probabilities"][f'{i}'])
 
-        fig,axes =plt.subplots()
-        bar_label = ['0-1 upvotes', '2-15 upvotes', '15-30 upvotes', '30-100 upvotes', '100-500 upvotes','500+ upvotes']
-        axes = sns.barplot(x=bar_label,y=sizes)
-        axes.set_xticks(axes.get_xticks(), axes.get_xticklabels(), rotation=45, ha='right')
+        # fig,axes =plt.subplots()
+        # bar_label = ['0-1 upvotes', '2-15 upvotes', '15-30 upvotes', '30-100 upvotes', '100-500 upvotes','500+ upvotes']
+        # axes = sns.barplot(x=bar_label,y=sizes)
+        # axes.set_xticks(axes.get_xticks(), axes.get_xticklabels(), rotation=45, ha='right')
 
-        fig.tight_layout()
-        st.markdown('###### 👇 Probabilities for getting each level of upvotes:')
-        st.pyplot(fig)
+        # fig.tight_layout()
+        # st.markdown('###### 👇 Probabilities for getting each level of upvotes:')
+        # st.pyplot(fig)
 
     except JSONDecodeError:
         st.markdown('## ❌ Error, title only containing Unknown Words or STOPWORDS(e.g. I, he, she)')
