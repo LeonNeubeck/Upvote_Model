@@ -128,7 +128,7 @@ def show(image, title, d, t, r):
         columns_show[1].write('## 100-500  upvotes')
         columns_show[1].info('You will get between 100 and 500 upvotes 🎉')
     elif cat == 3:
-        columns_show[1].write("#### Prediction: ",)
+        columns_show[1].write("#### Prediction: ")
         columns_show[1].write('## 30-100  upvotes')
         columns_show[1].warning('You will get between 30 and 100 upvotes')
     elif cat == 2:
@@ -144,7 +144,7 @@ def show(image, title, d, t, r):
         columns_show[1].write('## 0 or 1  upvotes')
         columns_show[1].error('Damn this post is kinda bad, no one would give you upvotes 😭')
     columns_show[0].write( f"##### Title:  {title}")
-    columns_show[0].write(f'##### Post time: {d} {t}')
+    columns_show[0].write(f'##### Post time: {d.strftime("%A, %b, %d")} {t.strftime("%H:%M")}')
     columns_show[0].image(image, caption='Your dog post', width = 250)
 
 
