@@ -119,22 +119,22 @@ def show(image, title, d, t, r):
     cat = r["category"]
     st.write('##### Post time:', d, t)
     if cat==5:
-        st.write("prediction:  500+ Upvotes",)
+        st.write("##### prediction:  500+ Upvotes",)
         st.success('Congrats you will likely get more than 500 upvotes!!! 🥳')
     elif cat == 4:
-        st.write("prediction:  100-500 Upvotes",)
+        st.write("##### prediction:  100-500 Upvotes",)
         st.info('You will get between 100 and 500 upvotes 🎉')
     elif cat == 3:
-        st.write("prediction:  30-100 Upvotes",)
+        st.write("##### prediction:  30-100 Upvotes",)
         st.warning('You will get between 30 and 100 upvotes')
     elif cat == 2:
-        st.write("prediction:  15-30 Upvotes",)
+        st.write("##### prediction:  15-30 Upvotes",)
         st.warning('Hold on, you will get less than 30 upvotes 🤔')
     elif cat == 1:
-        st.write("prediction:  2-15 Upvotes",)
+        st.write("##### prediction:  2-15 Upvotes",)
         st.warning('Hold on, you will get less than 30 upvotes 🤔')
     else:
-        st.write("prediction:  0 or 1 Upvotes",)
+        st.write("##### prediction:  0 or 1 Upvotes",)
         st.error('Damn this post is kinda bad, no one would give you upvotes 😭')
 
     st.image(image, caption='Your dog post', width = 200)
