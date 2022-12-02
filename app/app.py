@@ -120,27 +120,27 @@ def show(image, title, d, t, r):
 
 
     if cat==5:
-        columns_show[1].write("#### Your post will get: ")
+        columns_show[1].write("#### We predict your post will get: ")
         columns_show[1].success('## 500+  upvotes  🚀')
 
     elif cat == 4:
-        columns_show[1].write("#### Your post will get: ")
+        columns_show[1].write("#### We predict your post will get: ")
         columns_show[1].info('## 100-500  upvotes 🥳')
 
     elif cat == 3:
-        columns_show[1].write("#### Your post will get: 🎉")
+        columns_show[1].write("#### We predict your post will get: 🎉")
         columns_show[1].warning('## 30-100  upvotes')
 
     elif cat == 2:
-        columns_show[1].write("#### Your post will get: ")
+        columns_show[1].write("#### We predict your post will get: ")
         columns_show[1].warning('## 15-30  upvotes 🤔')
 
     elif cat == 1:
-        columns_show[1].write("#### Your post will get: ")
+        columns_show[1].write("#### We predict your post will get: ")
         columns_show[1].warning('## 2-15  upvotes 🤔')
 
     else:
-        columns_show[1].write("#### Your post will get: ")
+        columns_show[1].write("#### We predict your post will get: ")
         columns_show[1].error('## 0 or 1  upvotes 😭')
 
     columns_show[0].write( f"##### Title:  {title}")
