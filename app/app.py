@@ -121,27 +121,27 @@ def show(image, title, d, t, r):
 
     if cat==5:
         columns_show[1].write("#### Prediction: ")
-        columns_show[1].write('## 500+  upvotes ')
+        columns_show[1].warning('## 500+  upvotes ')
         columns_show[1].success('Congrats you will likely get more than 500 upvotes!!! 🥳')
     elif cat == 4:
         columns_show[1].write("#### Prediction: ")
-        columns_show[1].write('## 100-500  upvotes')
+        columns_show[1].warning('## 100-500  upvotes')
         columns_show[1].info('You will get between 100 and 500 upvotes 🎉')
     elif cat == 3:
         columns_show[1].write("#### Prediction: ")
-        columns_show[1].write('## 30-100  upvotes')
+        columns_show[1].warning('## 30-100  upvotes')
         columns_show[1].warning('You will get between 30 and 100 upvotes')
     elif cat == 2:
         columns_show[1].write("#### Prediction: ")
-        columns_show[1].write('## 15-30  upvotes')
+        columns_show[1].warning('## 15-30  upvotes')
         columns_show[1].warning('Hold on, you will get less than 30 upvotes 🤔')
     elif cat == 1:
         columns_show[1].write("#### Prediction: ")
-        columns_show[1].write('## 2-15  upvotes')
+        columns_show[1].warning('## 2-15  upvotes')
         columns_show[1].warning('Hold on, you will get less than 30 upvotes 🤔')
     else:
         columns_show[1].write("#### Prediction: ")
-        columns_show[1].write('## 0 or 1  upvotes')
+        columns_show[1].warning('## 0 or 1  upvotes')
         columns_show[1].error('Damn this post is kinda bad, no one would give you upvotes 😭')
     columns_show[0].write( f"##### Title:  {title}")
     columns_show[0].write(f'##### Post time:  {d.strftime("%A, %b, %d")}')
