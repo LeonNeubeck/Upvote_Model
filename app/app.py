@@ -155,8 +155,12 @@ if st.button('predict score'):
         axes.set_xticks(axes.get_xticks(), axes.get_xticklabels(), rotation=45, ha='right')
 
         fig.tight_layout()
-        st.markdown('###### 👇 Probabilities for getting each level of upvotes:')
-        st.pyplot(fig)
+        if st.checkbox(":point_down: Show Probabilities for getting each level of upvotes"):
+            pass
+        # st.markdown(‘###### :point_down: Probabilities for getting each level of upvotes:’)
+            #st.pyplot(fig)
+        # st.markdown('###### 👇 Probabilities for getting each level of upvotes:')
+        # st.pyplot(fig)
 
     except JSONDecodeError:
         st.markdown('## ❌ Error, title only containing Unknown Words or STOPWORDS(e.g. I, he, she)')
