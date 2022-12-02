@@ -137,8 +137,8 @@ def show(image, title, d, t, r):
     else:
         columns_show[1].write("#### Prediction: ###0 or 1  #### upvotes",)
         columns_show[1].error('Damn this post is kinda bad, no one would give you upvotes 😭')
-    columns_show[0].markdown( f"##### Title:  {title}")
-    columns_show[0].write('##### Post time:', d, t)
+    columns_show[0].write( f"##### Title:  {title}")
+    columns_show[0].write(f'##### Post time: {d} {t}')
     columns_show[0].image(image, caption='Your dog post', width = 250)
 
 
