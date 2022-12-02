@@ -116,28 +116,30 @@ else:
 
 def show(image, title, d, t, r):
     cat = r["category"]
+    columns_show = st.columns(2)
+
 
     if cat==5:
-        st.write("### prediction:  500+ Upvotes",)
-        st.success('Congrats you will likely get more than 500 upvotes!!! 🥳')
+        columns_show[1].write("#### Prediction: ",  "##500+", "#### upvotes",)
+        columns_show[1].success('Congrats you will likely get more than 500 upvotes!!! 🥳')
     elif cat == 4:
-        st.write("### prediction:  100-500 Upvotes",)
-        st.info('You will get between 100 and 500 upvotes 🎉')
+        columns_show[1].write("#### Prediction: ",  "##100-500", "#### upvotes",)
+        columns_show[1].info('You will get between 100 and 500 upvotes 🎉')
     elif cat == 3:
-        st.write("### prediction:  30-100 Upvotes",)
-        st.warning('You will get between 30 and 100 upvotes')
+        columns_show[1].write("#### Prediction: ",  "##30-100" ,"#### upvotes",)
+        columns_show[1].warning('You will get between 30 and 100 upvotes')
     elif cat == 2:
-        st.write("### prediction:  15-30 Upvotes",)
-        st.warning('Hold on, you will get less than 30 upvotes 🤔')
+        columns_show[1].write("#### Prediction: ",  "##15-30", "#### upvotes",)
+        columns_show[1].warning('Hold on, you will get less than 30 upvotes 🤔')
     elif cat == 1:
-        st.write("### prediction:  2-15 Upvotes",)
-        st.warning('Hold on, you will get less than 30 upvotes 🤔')
+        columns_show[1].write("#### Prediction: ",  "##2-15" ,"#### upvotes",)
+        columns_show[1].warning('Hold on, you will get less than 30 upvotes 🤔')
     else:
-        st.write("### prediction:  0 or 1 Upvotes",)
-        st.error('Damn this post is kinda bad, no one would give you upvotes 😭')
-    st.markdown( f"##### Title:  {title}")
-    st.write('##### Post time:', d, t)
-    st.image(image, caption='Your dog post', width = 200)
+        columns_show[1].write("#### Prediction: ",  "###0 or 1", "#### upvotes",)
+        columns_show[1].error('Damn this post is kinda bad, no one would give you upvotes 😭')
+    columns_show[0].markdown( f"##### Title:  {title}")
+    columns_show[0].write('##### Post time:', d, t)
+    columns_show[0].image(image, caption='Your dog post', width = 250)
 
 
 
