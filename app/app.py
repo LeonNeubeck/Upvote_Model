@@ -144,7 +144,8 @@ def show(image, title, d, t, r):
         columns_show[1].write('## 0 or 1  upvotes')
         columns_show[1].error('Damn this post is kinda bad, no one would give you upvotes 😭')
     columns_show[0].write( f"##### Title:  {title}")
-    columns_show[0].write(f'##### Post time: {d.strftime("%A, %b, %d")} {t.strftime("%H:%M")}')
+    columns_show[0].write(f'##### Post time:  {d.strftime("%A, %b, %d")}')
+    columns_show[0].write(f'##### At: {t.strftime("%H:%M")}')
     columns_show[0].image(image, caption='Your dog post', width = 250)
 
 
