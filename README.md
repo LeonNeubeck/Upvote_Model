@@ -1,10 +1,13 @@
 # 📚 Reddit Upvote Model with Deep Learning
-- Document here the project: Upvote_Model
-- Description: The purpose of this model is to predict the upvotes of posts in [Reddit DogPictures](https://www.reddit.com/r/dogpictures/). The Model maximizes upvotes mainly based on the Image, Title, and Time of a post. Unlike Instagram, Reddit has no celebrities, so the number of followers for each user would not impact so much to the upvotes. Our model hence ignore the number of followers in our prediction model. The model architecture is shown by the graph below.
+App home: https://leonneubeck-upvote-model-appapp-fyuebl.streamlit.app
+![](images/web_screenshot.jpg)
 
+Description: The purpose of this model is to predict the upvotes of posts in [Reddit DogPictures](https://www.reddit.com/r/dogpictures/). The Model maximizes upvotes mainly based on the Image, Title, and Time of a post. Unlike Instagram, Reddit has no celebrities, so the number of followers for each user would not impact so much to the upvotes. Our model hence ignore the number of followers in our prediction model. The model architecture is shown by the graph below.
 
-- Data Source:
-- Type of analysis:
+![](images/model_arch.jpg)
+
+Performance(accuracy): We classify 6 categories for the number of upvotes, which is **0-1/ 2-15/ 15-30/ 30-100/ 100-500/ 500+**. The Baseline score is 1/6=16.6%. Our model scores 29.7% accuracy.
+
 
 
 Please document the project the better you can.
@@ -74,3 +77,14 @@ mkdir tmp
 cd tmp
 Upvote_Model-run
 ```
+
+## Team Members
+- [Leon Neubeck](https://github.com/LeonNeubeck) 
+- [Binglin Wang](https://github.com/CitizenKylin) 
+- [David Katilius](https://github.com/davidk1401)
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+This project is licensed under the MIT License
