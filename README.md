@@ -79,7 +79,9 @@ Upvote_Model-run
 ```
 
 ## Team Members
-- [Leon Neubeck](https://github.com/LeonNeubeck) [Binglin Wang](https://github.com/CitizenKylin) [David Katilius](https://github.com/davidk1401)
+- [Leon Neubeck](https://github.com/LeonNeubeck) 
+- [Binglin Wang](https://github.com/CitizenKylin) 
+- [David Katilius](https://github.com/davidk1401)
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
