@@ -1,8 +1,11 @@
-# Data analysis
+# 📚 Reddit Upvote Model with Deep Learning
 - Document here the project: Upvote_Model
-- Description: Project Description
+- Description: The purpose of this model is to predict the upvotes of posts in [Reddit DogPictures](https://www.reddit.com/r/dogpictures/). The Model maximizes upvotes mainly based on the Image, Title, and Time of a post. Unlike Instagram, Reddit has no celebrities, so the number of followers for each user would not impact so much to the upvotes. Our model hence ignore the number of followers in our prediction model. The model architecture is shown by the graph below.
+
+
 - Data Source:
 - Type of analysis:
+
 
 Please document the project the better you can.
 
